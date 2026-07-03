@@ -46,6 +46,14 @@ async def root_page():
         return FileResponse(index_path)
     return {"app": settings.APP_NAME, "version": settings.APP_VERSION, "status": "running"}
 
+@app.get("/landing")
+async def landing_page():
+    """Serve the marketing landing page."""
+    landing_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "landing", "index.html")
+    if os.path.exists(landing_path):
+        return FileResponse(landing_path)
+    return {"error": "Landing page not found", "path": landing_path}
+
 
 # Mount static files
 static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "static")

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowMind — AI Automation That Actually Works</title>
+    <meta name="description" content="Describe what you want to automate in plain English. FlowMind builds it, runs it 24/7, and gives you a dashboard to monitor everything.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0f; --surface: #13131f; --border: #2a2a3e;
+            --text: #e4e4ef; --muted: #7a7a9e;
+            --accent: #6c5ce7; --accent2: #00cec9;
+            --success: #00b894; --danger: #e17055;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg); color: var(--text);
+            line-height: 1.6; overflow-x: hidden;
+        }
+        
+        /* Animated background */
+        .bg-orb {
+            position: fixed; border-radius: 50%; filter: blur(80px);
+            opacity: 0.15; z-index: 0;
+        }
+        .orb1 { width: 400px; height: 400px; background: var(--accent); top: -100px; left: -100px; animation: float1 20s ease-in-out infinite; }
+        .orb2 { width: 500px; height: 500px; background: var(--accent2); bottom: -150px; right: -150px; animation: float2 25s ease-in-out infinite; }
+        @keyframes float1 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(100px, 50px); } }
+        @keyframes float2 { 0%,100% { transform: translate(0,0); } 50% { transform: translate(-80px, -60px); } }
+        
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+        
+        /* Nav */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 24px; max-width: 1100px; margin: 0 auto;
+            position: relative; z-index: 10;
+        }
+        .logo { font-size: 22px; font-weight: 800; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { display: flex; gap: 24px; align-items: center; }
+        .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--text); }
+        .cta-btn {
+            padding: 10px 24px; background: var(--accent); color: white;
+            border: none; border-radius: 10px; font-weight: 600; cursor: pointer;
+            font-size: 14px; transition: all 0.2s; text-decoration: none;
+        }
+        .cta-btn:hover { background: #5b4bd5; transform: translateY(-2px); }
+        
+        /* Hero */
+        .hero { text-align: center; padding: 80px 24px 60px; }
+        .hero h1 { font-size: 52px; font-weight: 800; margin-bottom: 16px; line-height: 1.1; }
+        .hero h1 .grad { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 20px; color: var(--muted); max-width: 600px; margin: 0 auto 32px; }
+        
+        /* Demo box */
+        .demo-box {
+            max-width: 700px; margin: 0 auto 60px;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 20px; padding: 24px; text-align: left;
+        }
+        .demo-label { font-size: 12px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+        .demo-text {
+            font-size: 16px; padding: 16px; background: var(--bg);
+            border-radius: 12px; border: 1px solid var(--border);
+            margin-bottom: 16px; min-height: 60px;
+        }
+        .demo-text .typed { color: var(--accent2); }
+        .demo-flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+        .flow-step {
+            padding: 8px 14px; background: var(--surface); border: 1px solid var(--border);
+            border-radius: 8px; font-size: 13px; display: flex; align-items: center; gap: 6px;
+        }
+        .flow-step.trigger { border-color: var(--accent2); }
+        .flow-step.action { border-color: var(--accent); }
+        .flow-arrow { color: var(--muted); }
+        
+        /* Features */
+        .features { padding: 60px 0; }
+        .features h2 { font-size: 36px; text-align: center; margin-bottom: 48px; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .feature-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 16px; padding: 28px; transition: all 0.3s;
+        }
+        .feature-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+        .feature-card .icon { font-size: 36px; margin-bottom: 16px; }
+        .feature-card h3 { font-size: 18px; margin-bottom: 8px; }
+        .feature-card p { color: var(--muted); font-size: 14px; }
+        
+        /* Integrations */
+        .integrations { padding: 60px 0; text-align: center; }
+        .integrations h2 { font-size: 36px; margin-bottom: 16px; }
+        .integrations p { color: var(--muted); margin-bottom: 40px; }
+        .integ-logos { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+        .integ-badge {
+            padding: 12px 20px; background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; font-size: 15px; display: flex; align-items: center; gap: 8px;
+        }
+        
+        /* MCP section */
+        .mcp-section { padding: 60px 0; }
+        .mcp-box {
+            background: linear-gradient(135deg, rgba(108,92,231,0.1), rgba(0,206,201,0.1));
+            border: 1px solid var(--border); border-radius: 20px;
+            padding: 48px; text-align: center;
+        }
+        .mcp-box h2 { font-size: 32px; margin-bottom: 16px; }
+        .mcp-box p { color: var(--muted); max-width: 600px; margin: 0 auto 24px; }
+        .mcp-box code {
+            background: var(--bg); padding: 16px; border-radius: 12px;
+            display: block; text-align: left; font-size: 13px;
+            color: var(--accent2); font-family: 'Courier New', monospace;
+            max-width: 500px; margin: 0 auto;
+        }
+        
+        /* Pricing */
+        .pricing { padding: 60px 0; }
+        .pricing h2 { font-size: 36px; text-align: center; margin-bottom: 48px; }
+        .price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; max-width: 900px; margin: 0 auto; }
+        .price-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 16px; padding: 32px; text-align: center; transition: all 0.3s;
+        }
+        .price-card.featured { border-color: var(--accent); transform: scale(1.05); }
+        .price-card .plan { font-size: 14px; text-transform: uppercase; color: var(--muted); }
+        .price-card .price { font-size: 42px; font-weight: 800; margin: 12px 0; }
+        .price-card .price span { font-size: 16px; font-weight: 400; color: var(--muted); }
+        .price-card .features { text-align: left; margin: 20px 0; }
+        .price-card .features li { list-style: none; padding: 4px 0; color: var(--muted); font-size: 14px; }
+        .price-card .features li::before { content: "✓ "; color: var(--success); }
+        
+        /* Footer */
+        footer { padding: 40px 24px; text-align: center; border-top: 1px solid var(--border); margin-top: 40px; }
+        footer p { color: var(--muted); font-size: 14px; }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 36px; }
+            .hero p { font-size: 16px; }
+            .price-card.featured { transform: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-orb orb1"></div>
+    <div class="bg-orb orb2"></div>
+    
+    <nav>
+        <div class="logo">FlowMind</div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#integrations">Integrations</a>
+            <a href="#mcp">MCP</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#" class="cta-btn">Get Started</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="hero">
+            <h1>Describe it. <span class="grad">FlowMind runs it.</span></h1>
+            <p>The AI automation engine that turns plain English into working workflows. No Zapier. No code. No webhooks.</p>
+        </div>
+        
+        <div class="demo-box">
+            <div class="demo-label">You type:</div>
+            <div class="demo-text" id="demoText"></div>
+            <div class="demo-label">FlowMind builds:</div>
+            <div class="demo-flow" id="demoFlow">
+                <div class="flow-step trigger">💳 Paystack: Payment Received</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step action">💬 WhatsApp: Send Receipt</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-step action">📊 Google Sheets: Add Row</div>
+            </div>
+        </div>
+        
+        <div class="features" id="features">
+            <h2>Why FlowMind?</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="icon">🗣️</div>
+                    <h3>Natural Language</h3>
+                    <p>Just describe what you want. "When someone pays, send a receipt." That's it. No drag-and-drop, no field mapping.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">⚡</div>
+                    <h3>Runs 24/7</h3>
+                    <p>Your automations run on our cloud engine, even when your computer is off. Triggers fire in real-time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🔌</div>
+                    <h3>8+ Integrations</h3>
+                    <p>Paystack, WhatsApp, Gmail, Google Sheets, Slack, Notion, Telegram, Shopify. All pre-built and ready.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🤖</div>
+                    <h3>MCP Compatible</h3>
+                    <p>Connect FlowMind to Claude Desktop. Tell Claude to create automations and they're live instantly.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">📊</div>
+                    <h3>Full Dashboard</h3>
+                    <p>See every run, success or failure, execution logs, and analytics. Know exactly what's happening.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">💻</div>
+                    <h3>Desktop + Mobile</h3>
+                    <p>Downloadable app for Windows and Mac. Mobile companion for iOS and Android. Monitor on the go.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="integrations" id="integrations">
+            <h2>Connects to everything</h2>
+            <p>All your favorite tools, pre-wired and ready to go</p>
+            <div class="integ-logos">
+                <div class="integ-badge">💳 Paystack</div>
+                <div class="integ-badge">💬 WhatsApp</div>
+                <div class="integ-badge">📧 Gmail</div>
+                <div class="integ-badge">📊 Google Sheets</div>
+                <div class="integ-badge">🔔 Slack</div>
+                <div class="integ-badge">📝 Notion</div>
+                <div class="integ-badge">✈️ Telegram</div>
+                <div class="integ-badge">🛒 Shopify</div>
+            </div>
+        </div>
+        
+        <div class="mcp-section" id="mcp">
+            <div class="mcp-box">
+                <h2>Works with Claude via MCP</h2>
+                <p>FlowMind is an MCP server. Connect it to Claude Desktop and you can create automations by just talking to Claude.</p>
+                <code>"Create an automation that sends a WhatsApp receipt when someone pays on Paystack"</code>
+            </div>
+        </div>
+        
+        <div class="pricing" id="pricing">
+            <h2>Simple Pricing</h2>
+            <div class="price-grid">
+                <div class="price-card">
+                    <div class="plan">Free</div>
+                    <div class="price">$0<span>/mo</span></div>
+                    <ul class="features">
+                        <li>3 automations</li>
+                        <li>2 integrations</li>
+                        <li>Basic dashboard</li>
+                        <li>Community support</li>
+                    </ul>
+                    <a href="#" class="cta-btn">Start Free</a>
+                </div>
+                <div class="price-card featured">
+                    <div class="plan">Pro</div>
+                    <div class="price">$29<span>/mo</span></div>
+                    <ul class="features">
+                        <li>Unlimited automations</li>
+                        <li>All integrations</li>
+                        <li>Full dashboard + history</li>
+                        <li>MCP server access</li>
+                        <li>Desktop + mobile apps</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <a href="#" class="cta-btn">Get Pro</a>
+                </div>
+                <div class="price-card">
+                    <div class="plan">Team</div>
+                    <div class="price">$99<span>/mo</span></div>
+                    <ul class="features">
+                        <li>Everything in Pro</li>
+                        <li>5 team members</li>
+                        <li>Shared workflows</li>
+                        <li>Custom integrations</li>
+                        <li>API access</li>
+                        <li>Dedicated support</li>
+                    </ul>
+                    <a href="#" class="cta-btn">Get Team</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>FlowMind © 2026 — Built by MUTYINT. AI Automation for everyone.</p>
+    </footer>
+    
+    <script>
+        // Typing animation for demo
+        const demoText = "When someone pays on Paystack, send them a WhatsApp receipt and add to Google Sheets";
+        const demoEl = document.getElementById('demoText');
+        let i = 0;
+        function typeWriter() {
+            if (i < demoText.length) {
+                demoEl.innerHTML = '<span class="typed">' + demoText.slice(0, i+1) + '</span>';
+                i++;
+                setTimeout(typeWriter, 40);
+            } else {
+                setTimeout(() => { i = 0; demoEl.innerHTML = ''; typeWriter(); }, 4000);
+            }
+        }
+        typeWriter();
+    </script>
+</body>
+</html>

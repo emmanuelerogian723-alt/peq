@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "name": "FlowMind",
+    "slug": "flowmind",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "backgroundColor": "#0a0a0f"
+    },
+    "extra": {
+      "apiBase": "http://localhost:8000/api/v1"
+    },
+    "ios": { "supportsTablet": true, "bundleIdentifier": "com.flowmind.app" },
+    "android": { "package": "com.flowmind.app" },
+    "plugins": ["expo-notifications"]
+  }
+}

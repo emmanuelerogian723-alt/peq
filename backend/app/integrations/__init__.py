@@ -7,6 +7,7 @@ from .slack import SlackIntegration
 from .notion import NotionIntegration
 from .google_sheets import GoogleSheetsIntegration
 from .telegram import TelegramIntegration
+from .shopify import ShopifyIntegration
 
 INTEGRATION_REGISTRY = {
     "paystack": PaystackIntegration,
@@ -16,6 +17,7 @@ INTEGRATION_REGISTRY = {
     "notion": NotionIntegration,
     "google_sheets": GoogleSheetsIntegration,
     "telegram": TelegramIntegration,
+    "shopify": ShopifyIntegration,
 }
 
 def get_integration(name: str, credentials: Dict[str, str]):
