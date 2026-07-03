@@ -49,8 +49,8 @@ class GmailIntegration(BaseIntegration):
     def _send_email(self, params: Dict, context: Dict) -> ExecutionResult:
         try:
             to = params.get("to") or context.get("customer_email", "")
-            subject = params.get("subject", context.get("email_subject", "Notification from Peq"))
-            body = params.get("body", context.get("email_body", "This is an automated message from Peq."))
+            subject = params.get("subject", context.get("email_subject", "Notification from Peqflow"))
+            body = params.get("body", context.get("email_body", "This is an automated message from Peqflow."))
             
             # Build raw RFC822 message
             raw = f"To: {to}\r\nSubject: {subject}\r\nContent-Type: text/html; charset=utf-8\r\n\r\n{body}"
@@ -95,7 +95,7 @@ class GmailIntegration(BaseIntegration):
     def _add_label(self, params: Dict, context: Dict) -> ExecutionResult:
         try:
             email_id = params.get("email_id") or context.get("email_id", "")
-            label = params.get("label", "Peq")
+            label = params.get("label", "Peqflow")
             resp = httpx.post(
                 f"{self.BASE_URL}/users/me/messages/{email_id}/modify",
                 json={"addLabelIds": [label]},

@@ -1,6 +1,6 @@
 """
-Peq MCP Server
-Exposes Peq's automation capabilities via the Model Context Protocol.
+Peqflow MCP Server
+Exposes Peqflow's automation capabilities via the Model Context Protocol.
 This allows Claude (and any MCP-compatible AI assistant) to:
 1. Create automations from natural language
 2. List and manage existing workflows
@@ -24,15 +24,15 @@ from app.engine.runner import engine
 from app.core.config import AVAILABLE_INTEGRATIONS, get_enabled_integrations
 
 
-class PeqMCPServer:
-    """MCP server that exposes Peq automation tools."""
+class PeqflowMCPServer:
+    """MCP server that exposes Peqflow automation tools."""
     
     def __init__(self):
         self.tools = self._define_tools()
         self.resources = self._define_resources()
     
     def _define_tools(self) -> List[Dict]:
-        """Define all MCP tools that Peq exposes."""
+        """Define all MCP tools that Peqflow exposes."""
         return [
             {
                 "name": "create_automation",
@@ -211,13 +211,13 @@ class PeqMCPServer:
         """Define MCP resources."""
         return [
             {
-                "uri": "peq://integrations",
+                "uri": "peqflow://integrations",
                 "name": "Available Integrations",
-                "description": "List of all integrations Peq can connect to",
+                "description": "List of all integrations Peqflow can connect to",
                 "mimeType": "application/json"
             },
             {
-                "uri": "peq://capabilities",
+                "uri": "peqflow://capabilities",
                 "name": "Integration Capabilities",
                 "description": "Full registry of what each integration can do",
                 "mimeType": "application/json"
@@ -322,7 +322,7 @@ class PeqMCPServer:
     
     async def handle_resource_read(self, uri: str) -> str:
         """Handle a resource read request."""
-        if uri == "peq://integrations":
+        if uri == "peqflow://integrations":
             enabled = get_enabled_integrations()
             return json.dumps({
                 "integrations": [
@@ -330,7 +330,7 @@ class PeqMCPServer:
                     for k, v in AVAILABLE_INTEGRATIONS.items()
                 ]
             }, indent=2)
-        elif uri == "peq://capabilities":
+        elif uri == "peqflow://capabilities":
             return json.dumps(get_all_capabilities(), indent=2)
         return json.dumps({"error": "Unknown resource"})
     
@@ -351,7 +351,7 @@ class PeqMCPServer:
                         "resources": {"subscribe": False, "listChanged": False}
                     },
                     "serverInfo": {
-                        "name": "peq",
+                        "name": "peqflow",
                         "version": "1.0.0",
                     }
                 }
@@ -430,5 +430,5 @@ class PeqMCPServer:
 
 
 if __name__ == "__main__":
-    server = PeqMCPServer()
+    server = PeqflowMCPServer()
     server.run()

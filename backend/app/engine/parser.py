@@ -1,5 +1,5 @@
 """
-Peq Automation Parser
+Peqflow Automation Parser
 Converts natural language descriptions into structured automation workflows.
 
 User says: "When someone pays on Paystack, send them a WhatsApp receipt and add to Google Sheets"

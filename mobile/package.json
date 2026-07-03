@@ -1,7 +1,7 @@
 {
-  "name": "peq-mobile",
+  "name": "peqflow-mobile",
   "version": "1.0.0",
-  "description": "Peq mobile companion - monitor and manage your automations on the go",
+  "description": "Peqflow mobile companion - monitor and manage your automations on the go",
   "main": "App.js",
   "scripts": {
     "start": "expo start",

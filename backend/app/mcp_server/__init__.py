@@ -1,1 +1,1 @@
-from .server import PeqMCPServer
+from .server import PeqflowMCPServer

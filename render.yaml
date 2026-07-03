@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: peq
+    name: peqflow
     runtime: docker
     plan: free
     dockerfilePath: ./Dockerfile

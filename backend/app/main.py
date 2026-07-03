@@ -1,5 +1,5 @@
 """
-Peq Backend Server
+Peqflow Backend Server
 FastAPI application serving the automation engine, API, and dashboard.
 """
 import os

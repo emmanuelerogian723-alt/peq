@@ -1,6 +1,6 @@
-# Peq — AI Automation Engine
+# Peqflow — AI Automation Engine
 
-**Describe what you want to automate in plain English. Peq builds it, runs it 24/7, and gives you a dashboard to monitor everything.**
+**Describe what you want to automate in plain English. Peqflow builds it, runs it 24/7, and gives you a dashboard to monitor everything.**
 
 ## What It Does
 
@@ -8,12 +8,12 @@ Instead of manually configuring Zapier workflows, you just type:
 
 > "When someone pays on Paystack, send them a WhatsApp receipt and add them to Google Sheets"
 
-Peq parses your description, creates a structured workflow, and runs it automatically.
+Peqflow parses your description, creates a structured workflow, and runs it automatically.
 
 ## Architecture
 
 ```
-peq/
+peqflow/
 ├── backend/
 │   ├── app/
 │   │   ├── api/routes.py        # REST API (13 endpoints)
@@ -54,7 +54,7 @@ peq/
 
 ## MCP Server
 
-Peq exposes 12 MCP tools so Claude (or any MCP-compatible AI) can:
+Peqflow exposes 12 MCP tools so Claude (or any MCP-compatible AI) can:
 - Create automations from natural language
 - List, activate, pause, delete workflows
 - Execute workflows manually
@@ -67,9 +67,9 @@ Add to `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "peq": {
+    "peqflow": {
       "command": "python3",
-      "args": ["/path/to/peq/backend/app/mcp_server/server.py"],
+      "args": ["/path/to/peqflowflow/backend/app/mcp_server/server.py"],
       "env": {
         "PAYSTACK_SECRET_KEY": "your_key",
         "WHATSAPP_TOKEN": "your_token"
@@ -105,7 +105,7 @@ Add to `claude_desktop_config.json`:
 cd backend && python3 app/main.py
 
 # Docker
-docker build -t peq . && docker run -p 8000:8000 peq
+docker build -t peqflow . && docker run -p 8000:8000 peqflow
 
 # Render
 # Connect repo, deploy with render.yaml
